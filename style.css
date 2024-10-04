@@ -1,0 +1,37 @@
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.navbar {
+    background-color: #E61D27;
+}
+
+.navbar-brand {
+    font: 28px bold;
+    color: white;
+}
+
+.navbar-toggler-icon {
+    background-color: white;
+}
+
+.navbar-nav {
+    width: 90%;
+    font: 1.1em sans-serif;
+}
+
+.nav-item {
+    margin: 0;
+}
+
+.nav-link {
+    color: white;
+}
+
+/* Add more styles as needed */
