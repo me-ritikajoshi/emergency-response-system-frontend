@@ -1,46 +1,49 @@
-// Function to display messages and change text color
-const displayMsg = (msg, id, colorname) => {
+'use strict';
+
+const displayMsg = (msg, id, color) => {
     const element = document.getElementById(id);
-    element.innerHTML = msg;
-    element.style.color = colorname;
-};
-
-// Function to validate email
-const emailValidate = () => {
-    const email = document.getElementById('email').value;
-    if (email === '') {
-        displayMsg('Email is mandatory', 'emailMsg', 'red');
-        return false;
-    } else if (!email.match(/^([a-z0-9])[a-z0-9\-\_\.]+\@+([a-z])+\.+([a-z])+$/)) {
-        displayMsg('Invalid email format', 'emailMsg', 'red');
-        return false;
-    } else {
-        displayMsg('', 'emailMsg', 'green');
-        return true;
+    if (!element) {
+        return;
     }
+
+    element.textContent = msg;
+    element.style.color = color;
 };
 
-// Function to validate password
+const emailValidate = () => {
+    const email = document.getElementById('email').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!email) {
+        displayMsg('Email is mandatory.', 'emailMsg', 'red');
+        return false;
+    }
+
+    if (!emailPattern.test(email)) {
+        displayMsg('Please enter a valid email address.', 'emailMsg', 'red');
+        return false;
+    }
+
+    displayMsg('', 'emailMsg', 'green');
+    return true;
+};
+
 const pwdValidate = () => {
     const password = document.getElementById('pwd').value;
-    if (password === '') {
-        displayMsg('Password is mandatory', 'pwdMsg', 'red');
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$?!]).{8,100}$/;
+
+    if (!password) {
+        displayMsg('Password is mandatory.', 'pwdMsg', 'red');
         return false;
-    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$?!]).{8,100}$/)) {
-        displayMsg('Weak password', 'pwdMsg', 'red');
-        return false;
-    } else {
-        displayMsg('Password is strong', 'pwdMsg', 'green');
-        return true;
     }
+
+    if (!passwordPattern.test(password)) {
+        displayMsg('Use 8+ chars with upper, lower, number and @#$?!.', 'pwdMsg', 'red');
+        return false;
+    }
+
+    displayMsg('Password format looks good.', 'pwdMsg', 'green');
+    return true;
 };
 
-// Function to validate the entire form
-const validForm = () => {
-    if (emailValidate() && pwdValidate()) {
-        console.log('Logged in');
-        return true;
-    } else {
-        return false;
-    }
-};
+const validForm = () => emailValidate() && pwdValidate();

@@ -17,11 +17,11 @@
     font-size: 1.5rem;
     line-height: 1.5;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.352);
-    max-width: 60%;
+    max-width: 70%;
     margin: 0 auto;
     position: absolute;
     top: 43%;
-    left: 29%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -33,8 +33,8 @@
 
 .ambulance-section .button-container {
     position: absolute;
-    left: 28%;
-    bottom: 12rem;
+    left: 50%;
+    bottom: 7rem;
     transform: translateX(-50%);
     display: flex;
 }
@@ -48,7 +48,6 @@
     text-decoration: none;
     width: 170px;
     font-weight: bolder;
-  font-weight: bolder;
 }
 
 .ambulance-section .button-container .btn-login {
@@ -138,7 +137,8 @@
 @media only screen and (max-width: 768px) {
     .ambulance-section .button-container {
         position: absolute;
-        top: 60%;
+        top: 62%;
+        left: 50%;
         flex-direction: column; 
         align-items: center; 
     }

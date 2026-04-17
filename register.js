@@ -1,78 +1,88 @@
-// Function to display messages
-const displayMsg = (msg, id, colorname) => {
+'use strict';
+
+const displayMsg = (msg, id, color) => {
     const element = document.getElementById(id);
-    element.innerHTML = msg;
-    element.style.color = colorname;
+    if (!element) {
+        return;
+    }
+
+    element.textContent = msg;
+    element.style.color = color;
 };
 
-// Validation functions
-const nameValidate = (name, id) => {
-    if (name === "") {
-        displayMsg(`${id} is mandatory`, `${id}Msg`, 'red');
+const validateNameField = (inputId, messageId, label) => {
+    const value = document.getElementById(inputId).value.trim();
+
+    if (!value) {
+        displayMsg(`${label} is mandatory.`, messageId, 'red');
         return false;
-    } else if (!name.match(/^[a-zA-Z]+$/)) {
-        displayMsg(`${id} must contain alphabets only`, `${id}Msg`, 'red');
-        return false;
-    } else if (name.length < 3) {
-        displayMsg(`${id} must be more than 2 characters`, `${id}Msg`, 'red');
-        return false;
-    } else {
-        displayMsg('', `${id}Msg`, 'green');
-        return true;
     }
+
+    if (!/^[A-Za-z]{2,}$/.test(value)) {
+        displayMsg(`${label} must contain at least 2 letters only.`, messageId, 'red');
+        return false;
+    }
+
+    displayMsg('', messageId, 'green');
+    return true;
 };
+
+const fnameValidate = () => validateNameField('fname', 'fnameMsg', 'First name');
+const lnameValidate = () => validateNameField('lname', 'lnameMsg', 'Last name');
 
 const emailValidate = () => {
-    const email = document.getElementById('email').value;
-    if (email === "") {
-        displayMsg('Email is mandatory', 'emailMsg', 'red');
+    const email = document.getElementById('email').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!email) {
+        displayMsg('Email is mandatory.', 'emailMsg', 'red');
         return false;
-    } else if (!email.match(/^[a-z0-9][a-z0-9\-_.]+@[a-z]+\.[a-z]+$/)) {
-        displayMsg('Invalid email format', 'emailMsg', 'red');
-        return false;
-    } else {
-        displayMsg(' ', 'emailMsg', 'green');
-        return true;
     }
+
+    if (!emailPattern.test(email)) {
+        displayMsg('Please enter a valid email address.', 'emailMsg', 'red');
+        return false;
+    }
+
+    displayMsg('', 'emailMsg', 'green');
+    return true;
 };
 
 const phoneValidate = () => {
-    const phone = document.getElementById('phone').value;
-    if (phone === "") {
-        displayMsg('Phone number is mandatory', 'phoneMsg', 'red');
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!phone) {
+        displayMsg('Phone number is mandatory.', 'phoneMsg', 'red');
         return false;
-    } else if (!phone.match(/^98\d{8}$/)) {
-        displayMsg('Invalid phone number format', 'phoneMsg', 'red');
-        return false;
-    } else {
-        displayMsg(' ', 'phoneMsg', 'green');
-        return true;
     }
+
+    if (!/^(?:\+977[- ]?)?9\d{9}$/.test(phone)) {
+        displayMsg('Use a valid Nepal mobile number (e.g. 98XXXXXXXX or +97798XXXXXXXX).', 'phoneMsg', 'red');
+        return false;
+    }
+
+    displayMsg('', 'phoneMsg', 'green');
+    return true;
 };
 
 const pwdValidate = () => {
     const password = document.getElementById('pwd').value;
-    if (password === "") {
-        displayMsg('Password is mandatory', 'pwdMsg', 'red');
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$?!]).{8,100}$/;
+
+    if (!password) {
+        displayMsg('Password is mandatory.', 'pwdMsg', 'red');
         return false;
-    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$?!]).{8,100}$/)) {
-        displayMsg('Weak password must be greater than 8 characters, contain a number and special character', 'pwdMsg', 'red');
-        return false;
-    } else {
-        displayMsg('Password is strong', 'pwdMsg', 'green');
-        return true;
     }
+
+    if (!passwordPattern.test(password)) {
+        displayMsg('Use 8+ chars with upper, lower, number and @#$?!.', 'pwdMsg', 'red');
+        return false;
+    }
+
+    displayMsg('Password format looks good.', 'pwdMsg', 'green');
+    return true;
 };
 
 const validForm = () => {
-    if (nameValidate(document.getElementById('fname').value, 'First name') &&
-        nameValidate(document.getElementById('lname').value, 'Last name') &&
-        emailValidate() &&
-        phoneValidate() &&
-        pwdValidate()) {
-        console.log("Registered");
-        return true;
-    } else {
-        return false;
-    }
+    return fnameValidate() && lnameValidate() && emailValidate() && phoneValidate() && pwdValidate();
 };
